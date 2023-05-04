@@ -4,7 +4,7 @@ function NavBar (props){
     return (
         <div className="navbar navbar-expand-lg fixed-top navbar-dark bg-primary">
         <div className="container">
-          <a href="/home" className="navbar-brand">Minhas Compras</a>
+          <a href="/home" className="navbar-brand">E@sy_ConSys</a>
           <button className="navbar-toggler" type="button" 
                   data-toggle="collapse" data-target="#navbarResponsive" 
                   aria-controls="navbarResponsive" aria-expanded="false" 
@@ -17,6 +17,7 @@ function NavBar (props){
                 <NavbarItem  href="#/cadastro-usuarios" label="Usuários" />
                 <NavbarItem  href="#/" label="Fornecedor" />
                 <NavbarItem  href="#/login" label="Login" />
+                <NavbarItem  href="#/" label="ADM" />
             </ul>
             </div>
         </div>
