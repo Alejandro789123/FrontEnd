@@ -1,10 +1,28 @@
-import React from "react";
-
+import React from "react"
+import UsuarioService from "../app/service/usuarioService"
+import LocalStorageService from "../app/service/localstorageService"
 
 class Home extends React.Component{
+
+    constructor(){
+        super()
+        this.usuarioService = new UsuarioService();
+    }
+
+    componentDidMount(){
+        const usuarioLogado = LocalStorageService.obterItem('_usuario_logado')
+
+        this.usuarioService
+            .obterUsuario(usuarioLogado)
+            .then( response => {
+                this.setState( response.data)
+            }).catch(error => {
+                console.error(error.response)
+            });
+    }
+    
     render(){
         return (
-            <div class="container">
                 <div className="jumbotron">
                     <h1 className="display-3">Bem vindo!</h1>
                     <p className="lead">Esse é seu sistema de compras.</p>
@@ -22,8 +40,7 @@ class Home extends React.Component{
                         Cadastrar Fornecedor
                         </a>
                     </p>
-                </div>
-            </div>    
+                </div>    
         )
     }
 }

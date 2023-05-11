@@ -1,7 +1,13 @@
 import React from "react";
+
 import Card from "../components/card";
 import FormGroup from "../components/form-group";
 import { withRouter } from "react-router-dom";
+import SelectMenu from "../components/selectMenu";
+
+import UsuarioService from "../app/service/usuarioService";
+import { mensagemSucesso, mensagemErro } from "../components/toastr";
+
 
 class CadastroUsuario extends React.Component{
     
@@ -9,11 +15,56 @@ class CadastroUsuario extends React.Component{
         nome: '',
         email: '',
         senha: '',
-        senhaRepeticao: ''
+        senhaRepeticao: '',
+        perfil:''
+    }
+
+    constructor(){
+        super();
+        this.service = new UsuarioService();
+    }
+
+    validar(){
+        const msgs =[]
+        if(!this.state.nome){
+            msgs.push('O campo Nome e obrigatório.')
+        }
+        if(!this.state.email){
+            msgs.push('O campo Emaile e obrigatorio.')
+        }else if(!this.state.email.match(/^[a-z0-9.]+@[a-z0-9]+\.[a-z]/) ){ // regex para validar email
+            msgs.push('Informe um Email válido.')
+        }
+        if(!this.state.senha || !this.state.senhaRepeticao){
+          msgs.push('Digite a senha 2x.')
+        }else if(this.state.senha !== this.state.senhaRepeticao){
+            msgs.push('As senhas não batem')
+        }
+
+        return msgs
     }
 
     cadastrar = () => {
-        console.log(this.state)
+        const msgs = this.validar()
+        if(msgs && msgs.length > 0){
+            msgs.forEach( (msg, index ) => {
+                mensagemErro(msg)
+            });
+            return false;
+        }
+        const usuario = {
+            nome: this.state.nome,
+            email: this.state.email,
+            senha: this.state.senha,
+            perfil: this.state.perfil
+        }
+
+        this.service.salvar(usuario)
+        .then(response => {
+            mensagemSucesso('Usuário cadastrado com sucesso! Faça o login para acessar o sistema. ')
+            this.props.history.push('/login')
+        }).catch(error => {
+            mensagemErro(error.response.data)
+        })
     }
 
     cancelar = () => {
@@ -21,6 +72,15 @@ class CadastroUsuario extends React.Component{
     }
 
     render(){
+
+        const perfil = [
+            {label: 'Selecione...', value: ''},
+            {label: 'COMPRADOR', value: 'COMPRADOR'},
+            {label: 'CLIENTE', value: 'CLIENTE'},
+            {label: 'ADMINISTRADOR', value: 'ADMINISTRADOR'},
+        ]
+
+
         return (
             <Card title="Cadastro de Usuário">
                 <div className="row">
@@ -54,6 +114,18 @@ class CadastroUsuario extends React.Component{
                                        name="senha"
                                        onChange={e => this.setState({senhaRepeticao: e.target.value})} />
                             </FormGroup>
+                            
+                            <div className="col-lg-6">
+                            <div className="bs-component">
+                            <FormGroup htmlFor="inputPerfil" label="Perfil: ">
+                                        <SelectMenu id="inputPerfil" 
+                                        value={this.state.perfil}
+                                        onChange={e => this.setState({perfil: e.target.value})}
+                                        className="form-control" 
+                                        lista={perfil}/>
+                            </FormGroup>
+                            </div>
+                            </div>
                             <button onClick={this.cadastrar} type="button" className="btn btn-success">
                                 <i className="pi pi-save"></i> Salvar
                             </button>

@@ -1,6 +1,6 @@
 import React from "react";
 import NavbarItem from "./navbaritem";
-function NavBar (props){
+function NavBar (){
     return (
         <div className="navbar navbar-expand-lg fixed-top navbar-dark bg-primary">
         <div className="container">
