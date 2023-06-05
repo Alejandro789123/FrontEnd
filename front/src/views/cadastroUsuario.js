@@ -24,38 +24,19 @@ class CadastroUsuario extends React.Component{
         this.service = new UsuarioService();
     }
 
-    validar(){
-        const msgs =[]
-        if(!this.state.nome){
-            msgs.push('O campo Nome e obrigatório.')
-        }
-        if(!this.state.email){
-            msgs.push('O campo Emaile e obrigatorio.')
-        }else if(!this.state.email.match(/^[a-z0-9.]+@[a-z0-9]+\.[a-z]/) ){ // regex para validar email
-            msgs.push('Informe um Email válido.')
-        }
-        if(!this.state.senha || !this.state.senhaRepeticao){
-          msgs.push('Digite a senha 2x.')
-        }else if(this.state.senha !== this.state.senhaRepeticao){
-            msgs.push('As senhas não batem')
-        }
-
-        return msgs
-    }
+    
 
     cadastrar = () => {
-        const msgs = this.validar()
-        if(msgs && msgs.length > 0){
-            msgs.forEach( (msg, index ) => {
-                mensagemErro(msg)
-            });
+        
+        const {nome, email, senha, senhaRepeticao, perfil, } = this.state
+        const usuario = { nome, email, senha, senhaRepeticao, perfil}
+
+        try{
+            this.service.validar(usuario);
+        }catch(erro){
+            const msgs = erro.mensagens;
+            msgs.forEach(msg => mensagemErro(msg));
             return false;
-        }
-        const usuario = {
-            nome: this.state.nome,
-            email: this.state.email,
-            senha: this.state.senha,
-            perfil: this.state.perfil
         }
 
         this.service.salvar(usuario)
@@ -126,6 +107,7 @@ class CadastroUsuario extends React.Component{
                             </FormGroup>
                             </div>
                             </div>
+                            <br />
                             <button onClick={this.cadastrar} type="button" className="btn btn-success">
                                 <i className="pi pi-save"></i> Salvar
                             </button>
