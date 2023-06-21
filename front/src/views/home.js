@@ -13,7 +13,7 @@ class Home extends React.Component{
         const usuarioLogado = this.context.usuarioAutenticado
 
         this.usuarioService
-            .obterUsuario(usuarioLogado)//.id
+            .obterUsuario(usuarioLogado.id)//.id
             .then( response => {
                 this.setState( response.data)
             }).catch(error => {

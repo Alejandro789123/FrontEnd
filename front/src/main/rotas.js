@@ -5,12 +5,13 @@ import { Route, Switch, HashRouter, Redirect} from 'react-router-dom'
 import Home from "../views/home";
 import consultaFornecedores from "../views/fornecedores/consulta-Fornecedores";
 import cadastroFornecedores from "../views/fornecedores/cadastro-fornecedores";
+import landingPage from "../views/landingPage";
 import { AuthConsumer } from "../main/provedorAutenticacao"
 
 
      function RotaAutenticada({component: Component,isUsuarioAutenticado, ...props} ){
          return(
-             <Route {...props} render= {(componentProps) =>{
+             <Route exact {...props} render= {(componentProps) =>{
                  if(isUsuarioAutenticado){
                      return(
                          <Component {...componentProps}/>
@@ -28,7 +29,8 @@ import { AuthConsumer } from "../main/provedorAutenticacao"
     return (
         <HashRouter>
             <Switch>
-                <Route path="/login" component={Login} />
+                <Route exact path="/" component={landingPage} />
+                <Route exact path="/login" component={Login} />
                 
                 <RotaAutenticada isUsuarioAutenticado={props.isUsuarioAutenticado} path="/home" component={Home} /> 
                 <RotaAutenticada isUsuarioAutenticado={props.isUsuarioAutenticado} path="/cadastro-usuarios" component={CadastroUsuario} />

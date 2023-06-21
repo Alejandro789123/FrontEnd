@@ -42,14 +42,14 @@ class CadastroUsuario extends React.Component{
         this.service.salvar(usuario)
         .then(response => {
             mensagemSucesso('Usuário cadastrado com sucesso! Faça o login para acessar o sistema. ')
-            this.props.history.push('/login')
+            this.props.history.push('/home')
         }).catch(error => {
             mensagemErro(error.response.data)
         })
     }
 
     cancelar = () => {
-        this.props.history.push('/login')
+        this.props.history.push('/home')
     }
 
     render(){

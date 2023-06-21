@@ -19,7 +19,7 @@ function NavBar(props){
                 <NavbarItem render={props.isUsuarioAutenticado} href="#/home" label="Home" />
                 <NavbarItem render={props.isUsuarioAutenticado} href="#/cadastro-usuarios" label="Cadastro de Usuários" />
                 <NavbarItem render={props.isUsuarioAutenticado} href="#/cadastro-fornecedor" label="Cadastro de Fornecedor" />
-                <NavbarItem render={props.isUsuarioAutenticado} href="#/consulta-fornecedores" label="Consulta de Fornecedor" />
+                <NavbarItem render={props.isUsuarioAutenticado} href="#consulta-fornecedores" label="Consulta de Fornecedor" />
                 <NavbarItem render={props.isUsuarioAutenticado} href="#/" label="ADM" />
                 <NavbarItem render={props.isUsuarioAutenticado} onClick={props.deslogar} href="#/login" label="Sair" />
             </ul>
